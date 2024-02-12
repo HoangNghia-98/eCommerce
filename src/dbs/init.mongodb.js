@@ -2,8 +2,9 @@
 
 const mongoose = require('mongoose')
 const { countConnect } = require('../helpers/check.connect');
+const { db: { host, port, name }  } = require('../configs/config')
 
-const connectionString = 'mongodb://127.0.0.1:27017/eCommerce'
+const connectionString = `mongodb://${host}:${port}/${name}`
 const MAX_POLL_SIZE = 50;
 const TIME_OUT_CONNECT = 3000;
 
@@ -14,7 +15,7 @@ class Database {
 
     //connect
     connectMongoDB() {
-        if (1 === 1) {
+        if (process.env.NODE_ENV === 'dev') {
             mongoose.set('debug', true)
             mongoose.set('debug', { color: true })
         }
