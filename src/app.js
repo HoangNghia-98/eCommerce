@@ -29,6 +29,37 @@ checkOverload()
 // init routers
 app.use('', routes)
 
-// handling error
+// handling errors
+const { logErrorMiddleware, returnError, is404Handler, isOperationalError } = require("./middleware/errorHandler");
+const { exit } = require("./middleware/common");
+app.use(is404Handler)
+app.use(logErrorMiddleware)
+app.use(returnError)
+
+// if the Promise is rejected this will catch it
+process.on('SIGINT', () => {
+    console.log('Ctrl + C:: Service stop!!!')
+    exit()
+});  // CTRL+C
+process.on('SIGQUIT', () => {
+    console.log('Keyboard quit:: Service stop!!!')
+    exit()
+}); // Keyboard quit
+process.on('SIGTERM', () => {
+    console.log('Kill command:: Service stop!!!')
+    exit()
+}); // `kill` command
+
+// catch all uncaught exceptions
+process.on('unhandledRejection', error => {
+    throw error
+})
+
+process.on('uncaughtException', error => {
+    // if isOperational is false -> exit service
+    if (!isOperationalError(error)) {
+        exit()
+    }
+})
 
 module.exports = app

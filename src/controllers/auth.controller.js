@@ -1,14 +1,11 @@
 const AuthService = require('../services/auth.service')
+const { catchAsync } = require('../middleware/catch.async')
+const { CREATED } = require('../core/success.response')
 
 class AuthController {
-    signUp = async (req, res, next) => {
-        try {
-            console.log(req.body)
-            return res.status(201).json(await AuthService.signUp(req.body))
-        } catch(error) {
-            next(error)
-        }
-    }
+    signUp = catchAsync(async (req, res, next) => {
+        CREATED(res, "Register success", await AuthService.signUp(req.body))
+    })
 }
 
 module.exports = new AuthController()
