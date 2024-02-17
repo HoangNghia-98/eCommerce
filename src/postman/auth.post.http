@@ -5,6 +5,18 @@ Content-Type: application/json
 
 {
   "name": "Paul Hoang",
+  "email": "hoangpaul1@gmail.com",
+  "password": "0123456789"
+}
+
+### SignIn
+
+POST http://localhost:3052/v1/api/shop/login
+Content-Type: application/json
+x-api-key:  "63bc957757a85bf582a43014891cf57f293d517945f6d6389006ebaa46cb5013150853de87f2dcc2555e25f8014430d26fea42128326d655005b291177d76fef"
+
+{
   "email": "hoangpaul2@gmail.com",
   "password": "0123456789"
 }
+
